@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/core/widgets/custombuttonauth.dart';
 import 'package:noteapp/core/widgets/customlogoauth.dart';
@@ -55,7 +56,7 @@ class _SignUpState extends State<SignUp> {
               ),
               Container(height: 10),
               CustomTextForm(
-                  hinttext: "ُEnter Your Password", mycontroller: email),
+                  hinttext: "ُEnter Your Password", mycontroller: password),
               Container(
                 margin: const EdgeInsets.only(top: 10, bottom: 20),
                 alignment: Alignment.topRight,
@@ -68,7 +69,24 @@ class _SignUpState extends State<SignUp> {
               ),
             ],
           ),
-          CustomButtonAuth(title: "SignUp", onPressed: () {}),
+          CustomButtonAuth(title: "SignUp", onPressed: () async {
+            try {
+              final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                email: email.text,
+                password: password.text,
+              );
+              Navigator.of(context).pushReplacementNamed("Home");
+            } on FirebaseAuthException catch (e) {
+              if (e.code == 'weak-password') {
+                print('The password provided is too weak.');
+              } else if (e.code == 'email-already-in-use') {
+                print('The account already exists for that email.');
+              }
+            } catch (e) {
+              print(e);
+            }
+
+          }),
           Container(height: 20),
 
           Container(height: 20),

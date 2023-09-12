@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:noteapp/Features/home/presentation/views/home.dart';
 import 'package:noteapp/Features/login/presentation/views/login.dart';
 import 'package:noteapp/firebase_options.dart';
 
@@ -14,17 +16,37 @@ Future<void> main() async {
 
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+      } else {
+        print('**************************User is signed in!');
+      }
+    });
+    super.initState();
+
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const Login(),
+      home: FirebaseAuth.instance.currentUser==null? Login():Home(),
       routes: {
         "signup" : (context) => const SignUp() ,
-        "login" : (context) => const Login()
+        "login" : (context) => const Login(),
+        "Home" : (context) => const Home(),
       },
     );
   }
