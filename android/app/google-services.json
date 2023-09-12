@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "401712246853",
+    "project_id": "note-df5c2",
+    "storage_bucket": "note-df5c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401712246853:android:efa9521d09ce1d4ce6332c",
+        "android_client_info": {
+          "package_name": "com.example.noteapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjH4Qvw2iUzEBJwv1wNHILNJOTxPYsQl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
