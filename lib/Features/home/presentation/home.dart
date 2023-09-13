@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -12,6 +13,25 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  List <QueryDocumentSnapshot>data =[];
+  getdata() async {
+    QuerySnapshot querySnapshot =await   FirebaseFirestore.instance
+        .collection('categories')
+        .get() ;
+    data.addAll(querySnapshot.docs);
+    setState(() {
+
+    });
+  }
+@override
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getdata();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -20,7 +20,11 @@ class AddcetogryState extends State<Addcetogry> {
         .add({
           'addcetogry': add.text, // John Doe
         })
-        .then((value) => print("User Added")
+        .then((value) {
+      print("User Added");
+      Navigator.of(context).pushReplacementNamed("Home");
+
+    }
 
     )
 
@@ -58,7 +62,7 @@ class AddcetogryState extends State<Addcetogry> {
             TextButton(
               onPressed: () {
                 addUser();
-                Navigator.of(context).pushReplacementNamed("Home");
+                // Navigator.of(context).pushReplacementNamed("Home");
 
               },
               child: const Text(
