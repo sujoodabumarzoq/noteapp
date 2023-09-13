@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,6 +16,8 @@ class HomeState extends State<Home> {
       appBar: AppBar(
         actions: [
           IconButton(onPressed: () async {
+            GoogleSignIn googlesignin = GoogleSignIn();
+            googlesignin.disconnect();
             await FirebaseAuth.instance.signOut();
             Navigator.of(context).pushReplacementNamed("login");
 
@@ -24,7 +27,7 @@ class HomeState extends State<Home> {
       body: ListView(
 
         children: [
-      const Text("تاكد من الايميل ؟"),
+      const Text("welcoom ?"),
         ],
       ),
     );
