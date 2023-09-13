@@ -16,7 +16,8 @@ class _SignUpState extends State<SignUp> {
   TextEditingController username = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-GlobalKey<FormState>formState = GlobalKey();
+  GlobalKey<FormState> formState = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +33,8 @@ GlobalKey<FormState>formState = GlobalKey();
                 const CustomLogoAuth(),
                 Container(height: 20),
                 const Text("SignUp",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                    style:
+                        TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 Container(height: 10),
                 const Text("SignUp To Continue Using The App",
                     style: TextStyle(color: Colors.grey)),
@@ -43,11 +45,15 @@ GlobalKey<FormState>formState = GlobalKey();
                 ),
                 Container(height: 10),
                 CustomTextForm(
-                    hinttext: "ُEnter Your username", mycontroller: username,                   validator: (String) {
-                  if (String == "") {
-                    return " name not empty";
-                  }                  },
-                    ),
+                  hinttext: "ُEnter Your username",
+                  mycontroller: username,
+                  validator: (val) {
+                    if (val == "") {
+                      return " name not empty";
+                    }
+                    return null;
+                  },
+                ),
                 Container(height: 20),
                 const Text(
                   "Email",
@@ -55,10 +61,14 @@ GlobalKey<FormState>formState = GlobalKey();
                 ),
                 Container(height: 10),
                 CustomTextForm(
-                    hinttext: "ُEnter Your Email", mycontroller: email,                  validator: (String) {
-                  if (String == "") {
-                    return " email not empty";
-                  }                  },
+                  hinttext: "ُEnter Your Email",
+                  mycontroller: email,
+                  validator: (val) {
+                    if (val == "") {
+                      return " email not empty";
+                    }
+                    return null;
+                  },
                 ),
                 Container(height: 10),
                 const Text(
@@ -67,13 +77,15 @@ GlobalKey<FormState>formState = GlobalKey();
                 ),
                 Container(height: 10),
                 CustomTextForm(
-                    hinttext: "ُEnter Your Password", mycontroller: password,
-                    validator: (String) {
-                      if (String == "") {
-                        return " email not empty";
-                      }                  }
-
-                    ,),
+                  hinttext: "ُEnter Your Password",
+                  mycontroller: password,
+                  validator: (val) {
+                    if (val == "") {
+                      return " email not empty";
+                    }
+                    return null;
+                  },
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 20),
                   alignment: Alignment.topRight,
@@ -87,46 +99,64 @@ GlobalKey<FormState>formState = GlobalKey();
               ],
             ),
           ),
-          CustomButtonAuth(title: "SignUp", onPressed: () async {
-    if (formState.currentState !.validate()) {
+          CustomButtonAuth(
+              title: "SignUp",
+              onPressed: () async {
+                if (formState.currentState!.validate()) {
+                  try {
+                    final credential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                      email: email.text,
+                      password: password.text,
+                    );
+                    if (credential.user!.emailVerified) {
+                      Navigator.of(context).pushReplacementNamed("Home");
+                    } else {
+                      FirebaseAuth.instance.currentUser!
+                          .sendEmailVerification();
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: 'Check email',
+                        desc:
+                        'Verify your e-mail by clicking on the link in the e-mail................',
+                        // btnCancelOnPress: () {},
+                        // btnOkOnPress: () {},
+                      )..show();
 
-    try {
-              final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-                email: email.text,
-                password: password.text,
-              );
-              Navigator.of(context).pushReplacementNamed("Home");
-            } on FirebaseAuthException catch (e) {
-              if (e.code == 'weak-password') {
-                AwesomeDialog(
-                    context: context,
-                    dialogType: DialogType.error,
-                    animType: AnimType.rightSlide,
-                    title: 'Password weak',
-                    desc: 'The password provided is too weak..............',
-                    // btnCancelOnPress: () {},
-            // btnOkOnPress: () {},
-            )..show();
-                print('The password provided is too weak.');
-              } else if (e.code == 'email-already-in-use') {
-                AwesomeDialog(
-                  context: context,
-                  dialogType: DialogType.error,
-                  animType: AnimType.rightSlide,
-                  title: 'EmailAlreadyinuse',
-                  desc: 'The account already exists for that email...............',
-                  // btnCancelOnPress: () {},
-                  // btnOkOnPress: () {},
-                )..show();
+                    }
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'weak-password') {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: 'Password weak',
+                        desc: 'The password provided is too weak..............',
+                        // btnCancelOnPress: () {},
+                        // btnOkOnPress: () {},
+                      )..show();
+                      print('The password provided is too weak.');
+                    } else if (e.code == 'email-already-in-use') {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: 'EmailAlreadyinuse',
+                        desc:
+                            'The account already exists for that email...............',
+                        // btnCancelOnPress: () {},
+                        // btnOkOnPress: () {},
+                      )..show();
 
-                print('The account already exists for that email.');
-              }
-            } catch (e) {
-              print(e);
-            }
-
-          }}
-    ),
+                      print('The account already exists for that email.');
+                    }
+                  } catch (e) {
+                    print(e);
+                  }
+                }
+              }),
 
           Container(height: 20),
 
@@ -134,7 +164,7 @@ GlobalKey<FormState>formState = GlobalKey();
           // Text("Don't Have An Account ? Resister" , textAlign: TextAlign.center,)
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed("login") ;
+              Navigator.of(context).pushNamed("login");
             },
             child: const Center(
               child: Text.rich(TextSpan(children: [

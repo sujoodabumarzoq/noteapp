@@ -24,10 +24,7 @@ class HomeState extends State<Home> {
       body: ListView(
 
         children: [
-          FirebaseAuth.instance.currentUser!.emailVerified ? Text("اهلا وسهلا ؟"):
-          MaterialButton(onPressed: (){
-            FirebaseAuth.instance.currentUser!.sendEmailVerification();
-          },child: Text("تاكد من الايميل ؟"),)
+      const Text("تاكد من الايميل ؟"),
         ],
       ),
     );

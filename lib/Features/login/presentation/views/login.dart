@@ -17,8 +17,6 @@ class _LoginState extends State<Login> {
   TextEditingController password = TextEditingController();
   GlobalKey<FormState> formState = GlobalKey();
 
-  final auth = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +24,7 @@ class _LoginState extends State<Login> {
         padding: const EdgeInsets.all(20),
         child: ListView(children: [
           Form(
-            key:  formState,
+            key: formState,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -48,10 +46,12 @@ class _LoginState extends State<Login> {
                 CustomTextForm(
                   hinttext: "ُEnter Your Email",
                   mycontroller: email,
-                  validator: (String) {
-    if (String == "") {
-    return " email not empty";
-    }                  },
+                  validator: (val) {
+                    if (val == "") {
+                      return " email not empty";
+                    }
+                    return null;
+                  },
                 ),
                 Container(height: 10),
                 const Text(
@@ -62,10 +62,11 @@ class _LoginState extends State<Login> {
                 CustomTextForm(
                   hinttext: "ُEnter Your Password",
                   mycontroller: password,
-                  validator: (String) {
-                    if (String == "") {
+                  validator: (val) {
+                    if (val == "") {
                       return " password not empty";
                     }
+                    return null;
                   },
                 ),
                 Container(
@@ -85,13 +86,26 @@ class _LoginState extends State<Login> {
               title: "login",
               onPressed: () async {
                 // Navigator.of(context).pushReplacementNamed("Home",arguments: email);
-                if (formState.currentState !.validate()) {
+                if (formState.currentState!.validate()) {
                   try {
                     final credential = await FirebaseAuth.instance
                         .signInWithEmailAndPassword(
                             email: email.text, password: password.text);
-                    Navigator.of(context)
-                        .pushReplacementNamed("Home", arguments: email);
+                    if (credential.user!.emailVerified) {
+                      Navigator.of(context)
+                          .pushReplacementNamed("Home", arguments: email);
+                    } else {
+                      AwesomeDialog(
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: 'Check email',
+                        desc:
+                            'Verify your e-mail by clicking on the link in the e-mail................',
+                        // btnCancelOnPress: () {},
+                        // btnOkOnPress: () {},
+                      )..show();
+                    }
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'user-not-found') {
                       AwesomeDialog(
@@ -121,7 +135,6 @@ class _LoginState extends State<Login> {
                     }
                   }
                 }
-
               }),
           Container(height: 20),
 

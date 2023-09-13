@@ -42,7 +42,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FirebaseAuth.instance.currentUser==null? Login():Home(),
+      //لو كام لا يساوي فارغ و هاذا المستخدام تحقق من بريد انقلني ع هوم بيج لو لا انقلني ع لوجن
+      home: (FirebaseAuth.instance.currentUser != null &&
+              FirebaseAuth.instance.currentUser!.emailVerified)
+          ? Home()
+          : Login(),
+      // home: FirebaseAuth.instance.currentUser==null? Login():Home(),
       routes: {
         "signup" : (context) => const SignUp() ,
         "login" : (context) => const Login(),
