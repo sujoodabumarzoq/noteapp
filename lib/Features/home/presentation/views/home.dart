@@ -21,6 +21,15 @@ class HomeState extends State<Home> {
           }, icon: const Icon(Icons.exit_to_app))
         ],
       ),
+      body: ListView(
+
+        children: [
+          FirebaseAuth.instance.currentUser!.emailVerified ? Text("اهلا وسهلا ؟"):
+          MaterialButton(onPressed: (){
+            FirebaseAuth.instance.currentUser!.sendEmailVerification();
+          },child: Text("تاكد من الايميل ؟"),)
+        ],
+      ),
     );
   }
 }
