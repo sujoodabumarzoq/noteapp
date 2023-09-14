@@ -22,7 +22,7 @@ class AddcetogryState extends State<Addcetogry> {
       'id': FirebaseAuth.instance.currentUser!.uid, // John Doe
     }).then((value) {
       print("User Added");
-      Navigator.of(context).pushReplacementNamed("Home");
+      Navigator.of(context).pushNamedAndRemoveUntil("Home",(route) => false,);
     }).catchError((error) => print("Failed to add user: $error"));
   }
 
