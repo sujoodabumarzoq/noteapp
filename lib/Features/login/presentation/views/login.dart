@@ -17,9 +17,10 @@ class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   GlobalKey<FormState> formState = GlobalKey();
+  bool isloading = false ;
 
   Future signInWithGoogle() async {
-    // Trigger the authentication flow
+    // Trigger the authentication flow'
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     if (googleUser == null) {
       return;
@@ -42,8 +43,11 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body:   isloading ==true?Center(
+          child: CircularProgressIndicator()
+      ): Container(
         padding: const EdgeInsets.all(20),
+        color: Colors.transparent,
         child: ListView(children: [
           Form(
             key: formState,
@@ -149,13 +153,22 @@ class _LoginState extends State<Login> {
               title: "login",
               onPressed: () async {
                 // Navigator.of(context).pushReplacementNamed("Home",arguments: email);
+
                 if (formState.currentState!.validate()) {
                   try {
+                    isloading = true ;
+setState(() {
+
+});
                     final credential = await FirebaseAuth.instance
                         .signInWithEmailAndPassword(
                             email: email.text, password: password.text);
+                    isloading = false ;
+                    setState(() {
+
+                    });
                     if (credential.user!.emailVerified) {
-                      Navigator.of(context)
+                  Navigator.of(context)
                           .pushReplacementNamed("Home", arguments: email);
                     } else {
                       AwesomeDialog(

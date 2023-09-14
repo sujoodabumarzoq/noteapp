@@ -3,7 +3,9 @@ class Assets {
   Assets._();
 
   static const String images4 = 'images/4.png';
-  static const String imagesFolder = 'images/folder.webp';
+  static const String imagesFolder = 'images/folder.png';
+  static const String imagesFolderp = 'images/folderp.webp';
+  static const String imagesFoldery = 'images/foldery.png';
   static const String imagesLogo = 'images/logo.png';
 
 }

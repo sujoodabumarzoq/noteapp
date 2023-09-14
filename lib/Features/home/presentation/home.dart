@@ -13,14 +13,17 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
+  bool isloading = true ;
   List <QueryDocumentSnapshot>data =[];
   getdata() async {
     QuerySnapshot querySnapshot =await   FirebaseFirestore.instance
         .collection('categories')
         .get() ;
     data.addAll(querySnapshot.docs);
-    setState(() {
+    isloading = false ;
 
+    setState(() {
+      getdata();
     });
   }
 @override
@@ -58,10 +61,15 @@ class HomeState extends State<Home> {
               ))
         ],
       ),
-      body: bodyhome(),
+      body:
+      isloading ==true?Center(
+        child: CircularProgressIndicator()
+      ):
+        bodyhome(),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => Addcetogry()),

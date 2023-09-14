@@ -35,17 +35,19 @@ class _bodyhomeState extends State<bodyhome> {
           return Card(
               child: Container(
             padding: EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Image.asset("images/folder.png", height: 100, width: 100),
-                 Text(
-                  "${data[i] ['addcetogry']}",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Image.asset("images/folder.png", height: 100, width: 100),
+                   Text(
+                    "${data[i] ['addcetogry']}",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ],
+              ),
             ),
           ));
         });
