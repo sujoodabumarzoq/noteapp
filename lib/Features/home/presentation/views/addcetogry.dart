@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/core/widgets/textformfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,20 +17,13 @@ class AddcetogryState extends State<Addcetogry> {
 
   Future<void> addUser() {
     // Call the user's CollectionReference to add a new user
-    return categories
-        .add({
-          'addcetogry': add.text, // John Doe
-        })
-        .then((value) {
+    return categories.add({
+      'addcetogry': add.text, // John Doe
+      'id': FirebaseAuth.instance.currentUser!.uid, // John Doe
+    }).then((value) {
       print("User Added");
       Navigator.of(context).pushReplacementNamed("Home");
-
-    }
-
-    )
-
-        .catchError((error) => print("Failed to add user: $error"));
-
+    }).catchError((error) => print("Failed to add user: $error"));
   }
 
   @override
@@ -63,7 +57,6 @@ class AddcetogryState extends State<Addcetogry> {
               onPressed: () {
                 addUser();
                 // Navigator.of(context).pushReplacementNamed("Home");
-
               },
               child: const Text(
                 "Add Cetogry",

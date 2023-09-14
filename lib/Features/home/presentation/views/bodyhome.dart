@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class bodyhome extends StatefulWidget {
@@ -16,7 +17,7 @@ class _bodyhomeState extends State<bodyhome> {
 
   getdata() async {
     QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('categories').get();
+        await FirebaseFirestore.instance.collection('categories').where("id",isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
     data.addAll(querySnapshot.docs);
   }
 
