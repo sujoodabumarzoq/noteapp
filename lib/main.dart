@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/Features/home/presentation/home.dart';
 import 'package:noteapp/Features/home/presentation/views/addcetogry.dart';
+import 'package:noteapp/Features/home/presentation/views/updata.dart';
 import 'package:noteapp/Features/login/presentation/views/login.dart';
 import 'package:noteapp/firebase_options.dart';
 

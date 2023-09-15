@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:noteapp/Features/home/presentation/views/updata.dart';
 
 class bodyhome extends StatefulWidget {
   const bodyhome({
@@ -16,8 +17,10 @@ class _bodyhomeState extends State<bodyhome> {
   List data = [];
 
   getdata() async {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('categories').where("id",isEqualTo: FirebaseAuth.instance.currentUser!.uid).get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('categories')
+        .where("id", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
     data.addAll(querySnapshot.docs);
   }
 
@@ -42,17 +45,26 @@ class _bodyhomeState extends State<bodyhome> {
                 context: context,
                 dialogType: DialogType.warning,
                 animType: AnimType.rightSlide,
-                title: 'ERROR',
-                desc: 'Pare sure of the deleting process................',
-                btnCancelOnPress: () {},
-                btnOkOnPress: () async {
+                title: 'What does he want?',
+                // desc: 'Pare sure of the deleting process................',
+                btnCancelOnPress: () async {
                   await FirebaseFirestore.instance
                       .collection('categories')
                       .doc(data[i].id)
-
                       .delete();
                   Navigator.of(context).pushReplacementNamed("Home");
 
+                  // print("$id");
+                },
+                btnCancelText: "Delet",
+                btnOkText: "updata",
+                btnOkOnPress: () async {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => updata(
+                      oidname:data[i]["addcetogry"],
+                      docid: data[i].id,
+                    ),
+                  ));
                   // print("$id");
                 },
               )..show();
