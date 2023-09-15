@@ -8,7 +8,7 @@ import 'package:noteapp/Features/home/presentation/manger/home_cubit.dart';
 import 'package:noteapp/Features/home/presentation/views/addcetogry.dart';
 import 'package:noteapp/Features/home/presentation/views/updata.dart';
 import 'package:noteapp/Features/login/presentation/views/login.dart';
-import 'package:noteapp/Features/notes/presentation/home.dart';
+import 'package:noteapp/Features/notes/presentation/homenote.dart';
 import 'package:noteapp/core/constants.dart';
 import 'package:noteapp/firebase_options.dart';
 

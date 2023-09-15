@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:noteapp/Features/home/presentation/views/updata.dart';
 
 class BodyHomenote extends StatelessWidget {
-  final List<QueryDocumentSnapshot> data =[];
+  final List<QueryDocumentSnapshot> data;
 
-   BodyHomenote({super.key,});
+  BodyHomenote({required this.data}); // استقبل البيانات هنا
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +17,19 @@ class BodyHomenote extends StatelessWidget {
       itemCount: data.length,
       itemBuilder: (BuildContext context, i) {
         return InkWell(
-          onTap: () {
+          onDoubleTap: () {
             AwesomeDialog(
               context: context,
               dialogType: DialogType.warning,
               animType: AnimType.rightSlide,
               title: 'What does he want?',
               btnCancelOnPress: () async {
-                // await FirebaseFirestore.instance
-                //     .collection('categories')
-                //     .doc(data[i].id)
-                //     .delete();
-                // Navigator.of(context).pushReplacementNamed("Home");
+                await FirebaseFirestore.instance
+                    .collection('categories')
+                    .doc(data[i].id)
+
+                    .delete();
+                Navigator.of(context).pushReplacementNamed("Home");
               },
               btnCancelText: "Delete",
               btnOkText: "Update",
@@ -50,7 +51,7 @@ class BodyHomenote extends StatelessWidget {
                   children: [
                     // Image.asset("images/folder.png", height: 100, width: 100),
                     Text(
-                      "${data[i]['note']}",
+                      "${data[i]['notename']}", // استخدم 'notename' بدلاً من 'note'
                       style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,

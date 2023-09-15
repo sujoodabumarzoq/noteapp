@@ -93,7 +93,7 @@ class AddCategoryState extends State<AddCategory> {
       Navigator.of(context).pushNamedAndRemoveUntil("Home", (route) => false);
     }).catchError((error) => print("Failed to add category: $error"));
   }
-@override
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
@@ -143,3 +143,4 @@ class AddCategoryState extends State<AddCategory> {
     );
   }
 }
+

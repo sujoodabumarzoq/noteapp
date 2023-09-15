@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:noteapp/Features/home/presentation/views/addcetogry.dart';
-import 'package:noteapp/Features/home/presentation/views/bodyhome.dart';
-import 'package:noteapp/Features/notes/presentation/views/bodyhome.dart';
+import 'package:noteapp/Features/notes/presentation/views/addnote.dart';
+import 'package:noteapp/Features/notes/presentation/views/bodyhomenote.dart';
 
 class Homenots extends StatefulWidget {
   const Homenots({Key? key, required this.categoriesid}) : super(key: key);
-final String categoriesid;
+  final String categoriesid;
+
   @override
   HomenotsState createState() => HomenotsState();
 }
@@ -18,8 +18,11 @@ class HomenotsState extends State<Homenots> {
   List<QueryDocumentSnapshot> data = [];
 
   Future<void> getdata() async {
-    QuerySnapshot querySnapshot =
-    await FirebaseFirestore.instance.collection('categories').doc(widget.categoriesid).collection("note").get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('categories')
+        .doc(widget.categoriesid)
+        .collection("note")
+        .get();
     data.addAll(querySnapshot.docs);
     setState(() {
       isloading = false;
@@ -59,15 +62,21 @@ class HomenotsState extends State<Homenots> {
           )
         ],
       ),
-      body: isloading
-          ? const Center(child: CircularProgressIndicator())
-          : BodyHomenote(),
+      body: WillPopScope(
+          child: isloading
+              ? const Center(child: CircularProgressIndicator())
+              : BodyHomenote(data: data),
+          onWillPop: (){
+            Navigator.of(context).pushNamedAndRemoveUntil( "Home", (route) => false);
+            return Future.value(false);
+          }),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddCategory()),
+            MaterialPageRoute(
+                builder: (context) => AddNote(docid: widget.categoriesid)),
           );
         },
         child: const Icon(Icons.add),

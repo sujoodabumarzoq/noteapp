@@ -86,6 +86,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:noteapp/Features/home/presentation/views/addcetogry.dart';
 import 'package:noteapp/Features/home/presentation/views/bodyhome.dart';
+import 'package:noteapp/Features/notes/presentation/views/addnote.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -148,7 +149,7 @@ class HomeState extends State<Home> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddCategory()),
+            MaterialPageRoute(builder: (context) =>   AddCategory()),
           );
         },
         child: const Icon(Icons.add),
