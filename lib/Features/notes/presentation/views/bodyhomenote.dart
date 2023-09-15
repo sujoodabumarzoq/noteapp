@@ -1,19 +1,22 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:noteapp/Features/home/presentation/views/updata.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:noteapp/Features/notes/presentation/views/updatanote.dart';
 
 class BodyHomenote extends StatelessWidget {
   final List<QueryDocumentSnapshot> data;
+  final String categoriesid;
 
-  BodyHomenote({required this.data}); // استقبل البيانات هنا
+  BodyHomenote({required this.data, required this.categoriesid});
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       padding: const EdgeInsets.all(10),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, mainAxisExtent: 160),
+        crossAxisCount: 2,
+        mainAxisExtent: 160,
+      ),
       itemCount: data.length,
       itemBuilder: (BuildContext context, i) {
         return InkWell(
@@ -26,20 +29,23 @@ class BodyHomenote extends StatelessWidget {
               btnCancelOnPress: () async {
                 await FirebaseFirestore.instance
                     .collection('categories')
-                    .doc(data[i].id)
-
+                    .doc(categoriesid)
+                    .collection("note")
+                    .doc(data[i]["notename"])
                     .delete();
-                Navigator.of(context).pushReplacementNamed("Home");
+
+                Navigator.of(context).pop(); // للعودة إلى الصفحة السابقة
               },
               btnCancelText: "Delete",
               btnOkText: "Update",
               btnOkOnPress: () async {
-                // Navigator.of(context).push(MaterialPageRoute(
-                //   builder: (context) => UpdateCategory(
-                //     oidname: data[i]["addcetogry"],
-                //     docid: data[i].id,
-                //   ),
-                // ));
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => UpdateNote(
+                    noteoidname: data[i]["notename"],
+                    notedocid: data[i].id,
+                    categoriesid: categoriesid, // تم تمريره هنا
+                  ),
+                ));
               },
             )..show();
           },
@@ -49,13 +55,13 @@ class BodyHomenote extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    // Image.asset("images/folder.png", height: 100, width: 100),
                     Text(
-                      "${data[i]['notename']}", // استخدم 'notename' بدلاً من 'note'
+                      "${data[i]["notename"]}",
                       style: const TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                   ],
                 ),

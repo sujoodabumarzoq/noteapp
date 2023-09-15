@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:noteapp/Features/notes/presentation/views/addnote.dart';
 import 'package:noteapp/Features/notes/presentation/views/bodyhomenote.dart';
@@ -63,13 +63,15 @@ class HomenotsState extends State<Homenots> {
         ],
       ),
       body: WillPopScope(
-          child: isloading
-              ? const Center(child: CircularProgressIndicator())
-              : BodyHomenote(data: data),
-          onWillPop: (){
-            Navigator.of(context).pushNamedAndRemoveUntil( "Home", (route) => false);
-            return Future.value(false);
-          }),
+        child: isloading
+            ? const Center(child: CircularProgressIndicator())
+            : BodyHomenote(data: data, categoriesid: widget.categoriesid),
+        onWillPop: () async {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              "Home", (Route<dynamic> route) => false);
+          return false;
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.black,
         onPressed: () {
