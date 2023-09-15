@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:noteapp/Features/home/presentation/home.dart';
 import 'package:noteapp/core/widgets/textformfield.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -107,16 +108,21 @@ class UpdateCategoryState extends State<UpdateCategory> {
     super.initState();
     update.text = widget.oidname;
   }
-
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    update.dispose();
+  }
   Future<void> updateCategory() async {
-    await categories.doc(widget.docid).update({'addcetogry': update.text}).then(
+    await categories.doc(widget.docid).set({'addcetogry': update.text},SetOptions(merge: true)).then(
           (value) {
         print("Category Updated");
-        Navigator.of(context).pushReplacementNamed("Home");
+        Navigator.of(context).pushNamedAndRemoveUntil("Home", (route) => false);
+        // Navigator.of(context).pushReplacementNamed("Home");
       },
     ).catchError((error) => print("Failed to update category: $error"));
   }
-
+//set بتشتغل في add, updata
   @override
   Widget build(BuildContext context) {
     return Scaffold(

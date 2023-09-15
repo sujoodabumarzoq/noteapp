@@ -90,10 +90,15 @@ class AddCategoryState extends State<AddCategory> {
       'id': FirebaseAuth.instance.currentUser!.uid,
     }).then((value) {
       print("Category Added");
-      Navigator.of(context).pushReplacementNamed("Home");
+      Navigator.of(context).pushNamedAndRemoveUntil("Home", (route) => false);
     }).catchError((error) => print("Failed to add category: $error"));
   }
-
+@override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    add.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
