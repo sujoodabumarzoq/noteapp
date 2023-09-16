@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:noteapp/Features/notes/presentation/homenote.dart';
 import 'package:noteapp/Features/notes/presentation/views/updatanote.dart';
 
 class BodyHomenote extends StatelessWidget {
@@ -20,7 +21,7 @@ class BodyHomenote extends StatelessWidget {
       itemCount: data.length,
       itemBuilder: (BuildContext context, i) {
         return InkWell(
-          onDoubleTap: () {
+          onTap: () {
             AwesomeDialog(
               context: context,
               dialogType: DialogType.warning,
@@ -31,10 +32,13 @@ class BodyHomenote extends StatelessWidget {
                     .collection('categories')
                     .doc(categoriesid)
                     .collection("note")
-                    .doc(data[i]["notename"])
+                    .doc(data[i].id)
                     .delete();
 
-                Navigator.of(context).pop(); // للعودة إلى الصفحة السابقة
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => Homenots(categoriesid: categoriesid,
+                    )
+                ));
               },
               btnCancelText: "Delete",
               btnOkText: "Update",
