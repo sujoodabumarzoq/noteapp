@@ -129,7 +129,7 @@ class HomeState extends State<Home> {
           IconButton(
             onPressed: () async {
               GoogleSignIn googlesignin = GoogleSignIn();
-              await googlesignin.disconnect();
+              googlesignin.disconnect();
               await FirebaseAuth.instance.signOut();
               Navigator.of(context).pushReplacementNamed("login");
             },

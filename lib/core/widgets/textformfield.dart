@@ -28,3 +28,56 @@ class CustomTextForm extends StatelessWidget {
     );
   }
 }
+
+
+class CustomTextFormpassword extends StatefulWidget {
+  final String hinttext;
+  final TextEditingController mycontroller;
+  final String? Function(String?)? validator;
+
+  const CustomTextFormpassword(
+      {super.key, required this.hinttext, required this.mycontroller, required this.validator});
+
+  @override
+  CustomTextFormState createState() => CustomTextFormState();
+}
+
+class CustomTextFormState extends State<CustomTextFormpassword> {
+  bool isPasswordVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: widget.validator,
+      controller: widget.mycontroller,
+      obscureText: !isPasswordVisible, // يجعل كلمة المرور غير مرئية عندما تكون قيمة isPasswordVisible هي false
+      decoration: InputDecoration(
+        hintText: widget.hinttext,
+        hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+        contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
+        filled: true,
+        fillColor: Colors.grey[200],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: const BorderSide(color: Color.fromARGB(255, 184, 184, 184)),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        suffixIcon: GestureDetector(
+          onTap: () {
+            setState(() {
+              isPasswordVisible = !isPasswordVisible;
+            });
+          },
+          child: Icon(
+            isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+            color: Colors.grey,
+          ),
+        ),
+      ),
+    );
+  }
+}
+

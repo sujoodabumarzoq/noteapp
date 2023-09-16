@@ -76,7 +76,7 @@ class _SignUpState extends State<SignUp> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
                 Container(height: 10),
-                CustomTextForm(
+                CustomTextFormpassword(
                   hinttext: "ُEnter Your Password",
                   mycontroller: password,
                   validator: (val) {
