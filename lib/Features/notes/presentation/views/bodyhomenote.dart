@@ -8,7 +8,7 @@ class BodyHomenote extends StatelessWidget {
   final List<QueryDocumentSnapshot> data;
   final String categoriesid;
 
-  BodyHomenote({required this.data, required this.categoriesid});
+  const BodyHomenote({super.key, required this.data, required this.categoriesid});
 
   @override
   Widget build(BuildContext context) {

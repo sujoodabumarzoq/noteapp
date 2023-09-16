@@ -8,7 +8,7 @@ class UpdateNote extends StatefulWidget {
   final String notedocid;
   final String categoriesid;
 
-  UpdateNote({Key? key, required this.noteoidname, required this.notedocid, required this.categoriesid});
+  const UpdateNote({Key? key, required this.noteoidname, required this.notedocid, required this.categoriesid});
 
   @override
   UpdateNoteState createState() => UpdateNoteState();
@@ -24,6 +24,7 @@ class UpdateNoteState extends State<UpdateNote> {
     noteupdate.text = widget.noteoidname;
   }
 
+  @override
   void dispose() {
     super.dispose();
     noteupdate.dispose();
